@@ -76,16 +76,32 @@ def main():
 
             #### Process ANSI
             if ansi:
-		writeout("\033[2J\033[;H") ## clear screen
-                anslines = archive.read(ansi)
-                for line in anslines.split(r"^[[s"):
-        	    for char in line:
-               	        writeout(char.decode(cp))
-                        sleep(baud_delay)
-	            print "\n"
+                anslines = None
+
+                try:
+                    anslines = archive.read(ansi)
+                except NotImplementedError:
+                    print "Failed reading %s" % ansi
+
+                if anslines:
+		    writeout("\033c") ## reset the screen
+                    for line in anslines.split(r"^[[s"):
+        	        for char in line:
+               	            writeout(char.decode(cp))
+                            sleep(baud_delay)
+	                print "\n"
+
+                if debug:
+                    sleep(ansi_delay)
+                    writeout("\033c")
+                    print "Displayed %s from %s" % (ansi, pack)
         	sleep(ansi_delay) ## delay loading the next ansi
        	    else:
-              	sleep(0.2)
+                sleep(0.2)
 
 if __name__ == "__main__":
-    main()
+    if sys.version_info<(2,7,0):
+        sys.stderr.write("Python 2.7 is required")
+        exit(1)
+    else:
+        main()
