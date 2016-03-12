@@ -17,12 +17,13 @@
 #  v02: read randomly from artpacks, error checking, whitelists added
 #  v01: initial version, support .ans only
 #
-import os, sys, zipfile, ConfigParser
+import os, sys, zipfile, ConfigParser, shutil
 from time import sleep
 from random import randint
 
 # forced options
-cfgname = 'config'
+cfgname = os.path.join(os.path.expanduser('~'),'.pyANS')
+cfgexample = 'config.example'
 reset = '\033c'
 
 def commaToList(s):
@@ -41,10 +42,13 @@ def writeout(c):
 
 def main():
 
-    # Die if the config file is missing
+    # Check for config file
     if not os.path.exists(cfgname):
-        print "Config file is missing, problem with your installation"
-        exit()
+        if os.path.exists(cfgexample):
+            shutil.copy(cfgexample, cfgname)
+        else:
+            print "Config file %s is missing" % cfgname
+            exit()
 
     # User options        
     config = ConfigParser.RawConfigParser(allow_no_value=False)
@@ -61,7 +65,7 @@ def main():
         anslist = commaToList(config.get("whitelists", "anslist"))
         debug = config.getboolean("misc", "debug")
     except ConfigParser.NoOptionError or ConfigParser.NoSectionError:
-        print "Config file is damaged, cannot continue"
+        print "Config file is damaged or out of date, cannot continue"
 
     #### Simulated baud delay (very basic)
     baud_delay = ( cols**2 / ( baud / bits ) ) / 6000.0
