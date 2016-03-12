@@ -10,36 +10,59 @@
 #  Doesn't support all ansi correctly
 #
 # CHANGELOG:
+#  v04: added external config file as per issue #7
+#       repaired issue #6, arose from last commit
 #  v03: reads both zip and ans/asc etc from the libraries directory
 #       changed rendering method but still term width dependant
 #  v02: read randomly from artpacks, error checking, whitelists added
 #  v01: initial version, support .ans only
 #
-import os, sys, zipfile
+import os, sys, zipfile, ConfigParser
 from time import sleep
 from random import randint
 
-#### Base Settings
-baud = 57600        # emulated baud rate
-bits = 10           # bits per char
-cols = 80           # terminal cols
-cp = 'cp437'        # code page
-reset = '\033c'     # reset code for terminal
-ansi_delay = 3      # set the delay between ansi loading
-ansi_store = os.path.join(os.path.dirname(os.path.realpath(__file__)),'libraries')  # ANSi path
+# forced options
+cfgname = 'config'
+reset = '\033c'
 
-#### Whitelists
-arclist = ['.zip','.ZIP']
-anslist = ['.ans','.ANS','.asc','.ASC','.ice','.ICE']
-
-debug = False
+def commaToList(s):
+    """ convert comma seperated whitelists to python lists """
+    commaList = []
+    for item in s.split(','):
+        commaList.append('.%s' % item.lower())
+        commaList.append('.%s' % item.upper())
+    return commaList
 
 def writeout(c):
+    """ write to stdout then flush stdout """
     sys.stdout.write(c)
     sys.stdout.flush()
     return
 
 def main():
+
+    # Die if the config file is missing
+    if not os.path.exists(cfgname):
+        print "Config file is missing, problem with your installation"
+        exit()
+
+    # User options        
+    config = ConfigParser.RawConfigParser(allow_no_value=False)
+    config.readfp(open(cfgname,'r'))
+
+    try:
+        baud = config.getint("base", "baud")
+        bits = config.getint("base", "bits")
+        cols = config.getint("base", "cols")
+        cp = config.get("base", "cp")
+        ansi_delay = config.getfloat("base", "ansi_delay")
+        ansi_store = config.get("path", "ansi_store")
+        arclist = commaToList(config.get("whitelists", "arclist"))
+        anslist = commaToList(config.get("whitelists", "anslist"))
+        debug = config.getboolean("misc", "debug")
+    except ConfigParser.NoOptionError or ConfigParser.NoSectionError:
+        print "Config file is damaged, cannot continue"
+
     #### Simulated baud delay (very basic)
     baud_delay = ( cols**2 / ( baud / bits ) ) / 6000.0
 
@@ -84,19 +107,20 @@ def main():
                 print "No compatible files found in %s" % pack
             ansi = False
 
-        #### Process ANSI
-        writeout(reset) ## reset the screen
-        for idx, char in enumerate(ansi):
-            writeout(char.decode(cp))
-            sleep(baud_delay)
-            
-        if debug:
+        if ansi:
+            #### Process ANSI
+            writeout(reset) ## reset the screen
+            for idx, char in enumerate(ansi):
+                writeout(char.decode(cp))
+                sleep(baud_delay)
+                
+            if debug:
+                sleep(ansi_delay)
+                writeout(reset)
+                print "Displayed %s from %s" % (ansi, pack)
             sleep(ansi_delay)
-            writeout(reset)
-            print "Displayed %s from %s" % (ansi, pack)
-        sleep(ansi_delay) ## delay loading the next ansi
-    else:
-        sleep(0.2)
+        else:
+            sleep(0.2)
 
 if __name__ == "__main__":
     if sys.version_info<(2,7,0):
