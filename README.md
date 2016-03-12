@@ -1,28 +1,36 @@
-# pyANS
-*An ANSI art renderer*
+# pyANS /pan(t)s/
+*An ANSI/ASCII art renderer*
 
-Script will choose art at random from available art packs. Rendering time is based on a faux baud rate delay.
+This is a very basic ANSI/ASCII art renderer with a simulated baud rate delay.
 
-Settings can be tweaked in the script
+Script will choose art at random from available art packs or extract art files. Rendering time is based on a faux baud rate delay.
 
-    #### Base Settings
-    baud = 57600        # emulated baud rate
-    bits = 10	    # bits per char
-    cols = 80           # terminal cols
-    cp = 'cp437'        # code page
-    ansi_delay = 3      # set the delay between ansi loading
-    ansi_store = os.path.join(os.path.dirname(os.path.realpath(__file__)),'libraries')  # ANSi path
+Edit your settings in the config file
 
-File types used can be tweaked in the script
-
-    #### Whitelists
-    arclist = ['.zip','.ZIP']
-    anslist = ['.ans','.ANS','.asc','.ASC','.ice','.ICE']
+    [path]
+    ansi_store = ./libraries
+    
+    [base]
+    baud = 57600
+    bits = 10
+    cols = 80
+    cp = cp437
+    ansi_delay = 3
+    
+    
+    [whitelists]
+    arclist = zip
+    anslist = ans,asc,ice
+    
+    [misc]
+    debug = False
 
 ----
 ## usage
-1. Clone
-2. Drop artpacks archives into the libraries folder
+1. clone
+2. copy config.example to config
+3. crop artpacks archives into the libraries folder
+4. run python pyANS.py
 
 ----
 
