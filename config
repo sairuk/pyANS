@@ -1,0 +1,17 @@
+[path]
+ansi_store = ./libraries
+
+[base]
+baud = 57600
+bits = 10
+cols = 80
+cp = cp437
+ansi_delay = 3
+
+
+[whitelists]
+arclist = zip
+anslist = ans,asc,ice
+
+[misc]
+debug = False
