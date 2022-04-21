@@ -125,7 +125,7 @@ def main():
             for char in ansi[1].decode(cp):
                 writeout(char)
                 sleep(baud_delay)
-            _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
+
 
             if debug:
                 sleep(ansi_delay)
