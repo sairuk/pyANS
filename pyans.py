@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
 # // PyANS a simple ANSI scroller
@@ -17,14 +17,22 @@
 #  v02: read randomly from artpacks, error checking, whitelists added
 #  v01: initial version, support .ans only
 #
-import os, sys, zipfile, ConfigParser, shutil
+import os, sys, zipfile, shutil
 from time import sleep
 from random import randint
+
+try:
+    import configparser as ConfigParser
+except:
+    import ConfigParser
 
 # forced options
 cfgname = os.path.join(os.path.expanduser('~'),'.pyANS')
 cfgexample = 'config.example'
 reset = '\033c'
+
+def _log(s):
+    print(s)
 
 def commaToList(s):
     """ convert comma seperated whitelists to python lists """
@@ -47,12 +55,12 @@ def main():
         if os.path.exists(cfgexample):
             shutil.copy(cfgexample, cfgname)
         else:
-            print "Config file %s is missing" % cfgname
+            _log("Config file %s is missing" % cfgname)
             exit()
 
     # User options        
     config = ConfigParser.RawConfigParser(allow_no_value=False)
-    config.readfp(open(cfgname,'r'))
+    config.read_file(open(cfgname,'r'))
 
     try:
         baud = config.getint("base", "baud")
@@ -65,7 +73,7 @@ def main():
         anslist = commaToList(config.get("whitelists", "anslist"))
         debug = config.getboolean("misc", "debug")
     except ConfigParser.NoOptionError or ConfigParser.NoSectionError:
-        print "Config file is damaged or out of date, cannot continue"
+        _log("Config file is damaged or out of date, cannot continue")
 
     #### Simulated baud delay (very basic)
     baud_delay = ( cols**2 / ( baud / bits ) ) / 6000.0
@@ -90,17 +98,17 @@ def main():
             except:
                 archive = None
                 if debug:
-                    print "Couldn't read: %s" % pack
+                    _log("Couldn't read: %s" % pack)
             if archive:
                 for ans in archive.namelist():
                     if os.path.splitext(ans)[1] in anslist:
-                        viewlist.append(archive.read(ans))
+                        viewlist.append([ans, archive.read(ans)])
 
 
         #### Process ANSI into viewlist
         else:
             for ans in [pack]:
-                viewlist.append(open(ans,'r').read())
+                viewlist.append([ans, open(ans,'rb').read()])
             
 
         #### Select Random ANSI
@@ -108,20 +116,21 @@ def main():
             ansi = viewlist[randint(0, len(viewlist)-1)]
         else:
             if debug:
-                print "No compatible files found in %s" % pack
+                _log("No compatible files found in %s" % pack)
             ansi = False
 
         if ansi:
             #### Process ANSI
             writeout(reset) ## reset the screen
-            for idx, char in enumerate(ansi):
-                writeout(char.decode(cp))
+            for char in ansi[1].decode(cp):
+                writeout(char)
                 sleep(baud_delay)
-                
+            _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
+
             if debug:
                 sleep(ansi_delay)
                 writeout(reset)
-                print "Displayed %s from %s" % (ansi, pack)
+                _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
             sleep(ansi_delay)
         else:
             sleep(0.2)
