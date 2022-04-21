@@ -31,24 +31,18 @@ Edit your settings in the config file
 ## Options
 | Option        | Desc          |
 | ------------- |:--------------|
-| **ansi_store** | is the path where the artpacks/artfiles are storedd |
-| **baud/bits/cols** | used to calculate the fake rate |
-| **cp** | the code page used to render the art |
-| **ansi_delay** | the delay between each ansi |
-| **arclist** | comma seperated whitelist of archive extensions to read, these _must_ be supported by pythons zipfile library |
-| **anslist** | comma seperated whitelist of ansi/ascii extensions to read |
-
-
- 
-
- 
-
+| **ansi_store** | path where the artpacks/artfiles are stored |
+| **baud/bits/cols** | used to calculate the fake rate delay |
+| **cp** | the code page used to render the artfile |
+| **ansi_delay** | the delay between each artfile |
+| **arclist** | comma separated whitelist of zipfile library compatible archive extensions to process |
+| **anslist** | comma separated whitelist of artfile extensions to process |
 
 ----
 ## usage
 1. clone
-2. copy config.example to config
-3. crop artpacks archives into the libraries folder
+2. copy config.example to ~/.pyANS
+3. copy artpacks archives into the libraries folder
 4. run python pyANS.py
 
 ----
@@ -57,4 +51,4 @@ Edit your settings in the config file
 alt="pyANS Demo on CentOS" width="240" height="180" border="10" /></a>
 
 
-    sairuk : //mameau.com
+    sairuk : //mameau.com : @sairukau
