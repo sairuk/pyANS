@@ -52,3 +52,10 @@ alt="pyANS Demo on CentOS" width="240" height="180" border="10" /></a>
 
 
     sairuk : //mameau.com : @sairukau
+
+
+
+## Notes
+* https://xn--rpa.cc/irl/term.html
+* https://en.wikipedia.org/wiki/ANSI_escape_code
+* http://nethack4.org/blog/portable-terminal-codes.html
