@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
+# -*- coding: cp437 -*-
 #
 # // PyANS a simple ANSI scroller
 # Basic ANSI/ASCII scroller written in native python 
@@ -122,11 +122,13 @@ def main():
         if ansi:
             #### Process ANSI
             writeout(reset) ## reset the screen
-            for char in ansi[1].decode(cp):
+            ansi = ansi[1].decode(cp)
+
+            for char in ansi:
                 writeout(char)
                 sleep(baud_delay)
-
-
+            _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
+            exit()
             if debug:
                 sleep(ansi_delay)
                 writeout(reset)
@@ -136,8 +138,8 @@ def main():
             sleep(0.2)
 
 if __name__ == "__main__":
-    if sys.version_info<(2,7,0):
-        sys.stderr.write("Python 2.7 is required")
+    if sys.version_info<(3,0,0):
+        sys.stderr.write("Python 3 is required")
         exit(1)
     else:
         main()
