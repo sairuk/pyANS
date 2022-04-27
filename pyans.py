@@ -128,7 +128,7 @@ def main():
                 writeout(char)
                 sleep(baud_delay)
             _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
-            exit()
+            
             if debug:
                 sleep(ansi_delay)
                 writeout(reset)
