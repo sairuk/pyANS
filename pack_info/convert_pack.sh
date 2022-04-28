@@ -12,11 +12,9 @@
 
 VERSION="v0.01-alpha"
 PYA_LIB=$(dirname $(basename $0)/)$(awk '/ansi_store/{print $3}' $HOME/.pyANS)
-PYA_LIBU="${PYA_LIB}_unsupported"
 
 echo -e "pyans pack convertor $VERSION - sairuk\n"
 
-[ ! -d "$PYA_LIBU" ] && mkdir "$PYA_LIBU"
 if [ -d "$PYA_LIB" ]
 then
   echo "Looking for unsupported files in $PYA_LIB"
