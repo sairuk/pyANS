@@ -38,8 +38,9 @@ then
 
       if [ $(file "$PYA_CONV" | awk -F '=' '{print $2}' | grep -E "(deflate|store)") ]
       then
-        echo "OK, backing up $UNFILE to $PYA_LIBU/"
-        mv "$UNFILE" "$PYA_LIBU"
+        echo "OK, created $PYA_CONV from $UNFILE"
+      else
+        echo "Conversion failed, you should investigate"
       fi
     else
       echo "File is already converted as $PYA_CONV"
