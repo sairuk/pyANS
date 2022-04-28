@@ -1,4 +1,4 @@
-# pyANS /pan(t)s/
+# pyANS
 *An ANSI/ASCII art renderer*
 
 This is a basic ANSI/ASCII art renderer with a simulated baud rate delay.
@@ -7,7 +7,7 @@ Script will choose art at random from available art packs or extract art files. 
 
 config.example is kept in github with default settings, on first run this is copied to .pyANS in the users home directory.
 
-Edit your settings in the config file
+Edit your settings in the config file located at `$HOME/.pyANS`
 
     [path]
     ansi_store = ./libraries
@@ -37,7 +37,7 @@ on debian based systems this is probably
 ## Limitations
 Only zip archives are supported and are subject to the limitations of the core zipfile python library
 
-The python zipfile library does not support `Imploding/Shinking` compression type, these were the first round of implentation in PKzip shortly after the Arcwars. This artifically limits what is available to pyANS. The good news however is the problematic archives are only a small subset of pack releases.
+The python zipfile library does not support `Imploding/Shrinking` compression type, these were the first round of implentations in PKzip shortly after the Arcwars. This artifically limits what is available to pyANS. The good news however is the problematic archives are only a small subset of pack releases.
 
 sixteencolors-archive stats (2202-04)
 ```
