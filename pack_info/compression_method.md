@@ -4226,7 +4226,6 @@
 |2004/tgc01.zip|deflate|
 |2004/tgc02.zip|deflate|
 |2004/tgc03.zip|deflate|
-|2004/tnt-001.zip||
 |2004/tnt-002.zip|store|
 |2004/tnt-003.zip|store|
 |2004/tnt-004.zip|deflate|
@@ -4238,7 +4237,6 @@
 |2004/wrlk007.zip|deflate|
 |2004/wrlk008.zip|deflate|
 |2005/antifa-01.zip|deflate|
-|2005/bulio's|compression|
 |2005/crisis8.zip|deflate|
 |2005/crisis9.zip|deflate|
 |2005/cro-20.zip|deflate|
@@ -4319,7 +4317,6 @@
 |2011/spleen03.zip|deflate|
 |2012/cph-26ar.zip|deflate|
 |2012/fdr-01.zip|deflate|
-|2012/Turtles|to|
 |2013/B0DiES!.zip|deflate|
 |2013/BLOCKTRONICS_16COLORS.zip|deflate|
 |2013/blocktronics_acid_trip.zip|deflate|
@@ -4473,3 +4470,6 @@
 |2021/laz14.zip|deflate|
 |2021/lgcy-003.zip|deflate|
 |2021/newschool-01.zip|store|
+|2004/tnt-001.zip||
+|2005/bulio's ascii.zip|deflate|
+|2012/Turtles Stories Vol.1 (2012).zip|deflate|

@@ -41,7 +41,8 @@ The python zipfile library does not support `Imploding/Shinking` compression typ
 
 sixteencolors-archive stats (2202-04)
 ```
-   3453 deflate
+      1 
+   3454 deflate
      49 Imploding
       3 Shrinking
     967 store

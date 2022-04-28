@@ -52,6 +52,3 @@
 |1999/deg65-1.zip|Imploding|
 |1999/deg65-2.zip|Shrinking|
 |2000/cmm00002.zip|Imploding|
-|2004/tnt-001.zip||
-|2005/bulio's|compression|
-|2012/Turtles|to|
