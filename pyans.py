@@ -17,7 +17,8 @@
 #  v02: read randomly from artpacks, error checking, whitelists added
 #  v01: initial version, support .ans only
 #
-import os, sys, zipfile, shutil
+import os, sys, shutil
+import zipfile_dclimplode as zipfile
 from time import sleep
 from random import randint
 
@@ -30,6 +31,8 @@ except:
 cfgname = os.path.join(os.path.expanduser('~'),'.pyANS')
 cfgexample = 'config.example'
 reset = '\033c'
+
+PACK_BLACKLIST = []
 
 def _log(s):
     print(s)
@@ -93,16 +96,31 @@ def main():
         ### Process Archive into filelist
         if os.path.splitext(pack)[1] in arclist:
             #### Read Archive
-            try: 
-                archive = zipfile.ZipFile(pack, 'r')
-            except:
-                archive = None
+            if pack not in PACK_BLACKLIST:
+                try: 
+                    archive = zipfile.ZipFile(pack,'r')
+                except:
+                    archive = None
+                    if debug:
+                        _log("Couldn't read: %s" % pack)
+                if archive:
+                    for ans in archive.namelist():
+                        ansfn = os.path.split(ans)[1]
+                        if os.path.splitext(ansfn)[1] in anslist:
+                            try:
+                                viewlist.append([ansfn, archive.read(ans)])
+                            except NotImplementedError as e:
+                                _log("Couldn't read %s: %s" % (pack, e))
+                                # don't loop over the one pack indefinately
+                                if len(packlist) <= 1:
+                                    _log("Last pack in list, exiting")
+                                    exit(1)
+                                else:
+                                    PACK_BLACKLIST.append([pack, e])
+                                    break
+            else:
                 if debug:
-                    _log("Couldn't read: %s" % pack)
-            if archive:
-                for ans in archive.namelist():
-                    if os.path.splitext(ans)[1] in anslist:
-                        viewlist.append([ans, archive.read(ans)])
+                    _log("Pack %s was blacklisted: %s" % (PACK_BLACKLIST[0], PACK_BLACKLIST[1]))
 
 
         #### Process ANSI into viewlist
@@ -120,6 +138,8 @@ def main():
             ansi = False
 
         if ansi:
+            display_line = "\n\nDisplayed %s from %s" % (ansi[0], pack)
+
             #### Process ANSI
             writeout(reset) ## reset the screen
             ansi = ansi[1].decode(cp)
@@ -127,12 +147,12 @@ def main():
             for char in ansi:
                 writeout(char)
                 sleep(baud_delay)
-            _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
+            _log(display_line)
             
             if debug:
                 sleep(ansi_delay)
                 writeout(reset)
-                _log("\n\nDisplayed %s from %s" % (ansi[0], pack))
+                _log(display_line)
             sleep(ansi_delay)
         else:
             sleep(0.2)

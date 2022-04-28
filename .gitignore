@@ -63,3 +63,6 @@ target/
 
 
 libraries/*.*
+!libraries/ansi_art_packs_go_here
+libraries_*
+libraries.*
