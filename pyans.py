@@ -18,7 +18,7 @@
 #  v01: initial version, support .ans only
 #
 import os, sys, shutil
-import zipfile_dclimplode as zipfile
+import zipfile
 from time import sleep
 from random import randint
 
