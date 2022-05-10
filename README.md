@@ -3,11 +3,11 @@
 
 This is a basic ANSI/ASCII art renderer with a simulated baud rate delay.
 
-Script will choose art at random from available art packs or extract art files. Rendering time is based on a faux baud rate delay.
+Script will choose art at random from available art packs. Rendering time is based on a faux baud rate delay.
 
-config.example is kept in github with default settings, on first run this is copied to .pyANS in the users home directory.
+config.example is kept in github with default settings, on first run this is copied to the .pyANS directory in the users home directory.
 
-Edit your settings in the config file located at `$HOME/.pyANS`
+Edit your settings in the config file located at `$HOME/.pyANS/config.ini`
 
     [path]
     ansi_store = ./libraries
@@ -84,11 +84,24 @@ Please never upload converted packs to any official archives, original releases/
 ----
 ## usage
 1. clone
-2. copy config.example to ~/.pyANS
+2. copy config.example to ~/.pyANS/config.ini
 3. copy artpacks archives into the libraries folder
-4. run python pyANS.py
+4. run python pyans.py
 
 ----
+## regenerate the cache
+1. run python pyans.py --update-cache
+
+----
+
+## differences in the rewrite
+* python3 only
+* uses a cachefile (better rand)
+* only supports zipped art packs
+* logging added
+* code split up into classes
+
+
 
 <a href="https://www.youtube.com/watch?v=eWz5cLIOal4" target="_blank"><img src="https://i.ytimg.com/vi/eWz5cLIOal4/hqdefault.jpg" 
 alt="pyANS Demo on CentOS" width="240" height="180" border="10" /></a>
